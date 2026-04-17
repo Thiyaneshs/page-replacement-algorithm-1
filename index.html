@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Replacement Algorithm Simulator - Next Generation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Page Replacement Algorithm</h1>
+            <p>Real-time visualization of FIFO, LRU, and Optimal page replacement algorithms</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2>⚙️ Configuration</h2>
+                <div class="input-group">
+                    <label for="pageRefString">📄 Page Reference String:</label>
+                    <input 
+                        type="text" 
+                        id="pageRefString" 
+                        placeholder="e.g., 7,0,1,2,0,3,0,4,2,3,0,3,2" 
+                        value="7,0,1,2,0,3,0,4,2,3,0,3,2"
+                    >
+                </div>
+                <div class="input-group">
+                    <label for="numFrames">💾 Number of Frames:</label>
+                    <input 
+                        type="number" 
+                        id="numFrames" 
+                        min="1" 
+                        max="10" 
+                        value="3"
+                    >
+                </div>
+                <button id="simulateBtn" class="btn-simulate">🚀 Simulate All Algorithms</button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <!-- FIFO Results -->
+                <div class="algorithm-result">
+                    <h2>🔄 FIFO (First-In, First-Out)</h2>
+                    <div class="animation-controls">
+                        <button class="play-btn" id="fifoPlayBtn" onclick="playAnimation('fifo')">▶ Play</button>
+                        <button class="pause-btn" id="fifoPauseBtn" onclick="pauseAnimation('fifo')" style="display: none;">⏸ Pause</button>
+                        <button class="reset-btn" id="fifoResetBtn" onclick="resetAnimation('fifo')">⟲ Reset</button>
+                        <div class="speed-control">
+                            <label for="fifoSpeed">Speed:</label>
+                            <select id="fifoSpeed" onchange="setSpeed('fifo', this.value)">
+                                <option value="500">🐢 Slow</option>
+                                <option value="1000" selected>⚡ Normal</option>
+                                <option value="500">🚀 Fast</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="fifoProgress"></div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <span class="stat-label">Page Faults</span>
+                            <span class="stat-value" id="fifoFaults">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Fault Rate</span>
+                            <span class="stat-value" id="fifoRate">0%</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Progress</span>
+                            <span class="stat-value" id="fifoStep">0/0</span>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="fifoTable" class="simulation-table"></table>
+                    </div>
+                </div>
+
+                <!-- LRU Results -->
+                <div class="algorithm-result">
+                    <h2>⏱️ LRU (Least Recently Used)</h2>
+                    <div class="animation-controls">
+                        <button class="play-btn" id="lruPlayBtn" onclick="playAnimation('lru')">▶ Play</button>
+                        <button class="pause-btn" id="lruPauseBtn" onclick="pauseAnimation('lru')" style="display: none;">⏸ Pause</button>
+                        <button class="reset-btn" id="lruResetBtn" onclick="resetAnimation('lru')">⟲ Reset</button>
+                        <div class="speed-control">
+                            <label for="lruSpeed">Speed:</label>
+                            <select id="lruSpeed" onchange="setSpeed('lru', this.value)">
+                                <option value="500">🐢 Slow</option>
+                                <option value="1000" selected>⚡ Normal</option>
+                                <option value="500">🚀 Fast</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="lruProgress"></div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <span class="stat-label">Page Faults</span>
+                            <span class="stat-value" id="lruFaults">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Fault Rate</span>
+                            <span class="stat-value" id="lruRate">0%</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Progress</span>
+                            <span class="stat-value" id="lruStep">0/0</span>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="lruTable" class="simulation-table"></table>
+                    </div>
+                </div>
+
+                <!-- Optimal Results -->
+                <div class="algorithm-result">
+                    <h2>🎯 Optimal Page Replacement</h2>
+                    <div class="animation-controls">
+                        <button class="play-btn" id="optimalPlayBtn" onclick="playAnimation('optimal')">▶ Play</button>
+                        <button class="pause-btn" id="optimalPauseBtn" onclick="pauseAnimation('optimal')" style="display: none;">⏸ Pause</button>
+                        <button class="reset-btn" id="optimalResetBtn" onclick="resetAnimation('optimal')">⟲ Reset</button>
+                        <div class="speed-control">
+                            <label for="optimalSpeed">Speed:</label>
+                            <select id="optimalSpeed" onchange="setSpeed('optimal', this.value)">
+                                <option value="500">🐢 Slow</option>
+                                <option value="1000" selected>⚡ Normal</option>
+                                <option value="500">🚀 Fast</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="optimalProgress"></div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <span class="stat-label">Page Faults</span>
+                            <span class="stat-value" id="optimalFaults">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Fault Rate</span>
+                            <span class="stat-value" id="optimalRate">0%</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Progress</span>
+                            <span class="stat-value" id="optimalStep">0/0</span>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="optimalTable" class="simulation-table"></table>
+                    </div>
+                </div>
+
+                <!-- Comparison Chart -->
+                <div class="comparison-section">
+                    <h2>📊 Algorithm Comparison</h2>
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="algorithms.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
